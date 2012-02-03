@@ -1,0 +1,33 @@
+Notes on how to use scripts to produce files for the Japanese puzzle.
+
+At present all the paths are hard coded. I've added an item to my ToDo list to
+feel bad about this.
+
+The process starts with a file names wikistart.htm, which is a downloaded 
+version of http://en.wikipedia.org/wiki/Category:Lists_of_popular_pages_by_WikiProject.
+
+teasepopularpages.pl - Extracts lists of popular pages from wikistart.htm, producing wikiwant.txt
+
+teasepagebypage.pl - Gets individual popular pages for each wikiwant.txt entry and saves out misc data for each popular page.
+
+filterwikicands.pl - Filters out individual popular pages from teasepagebypage.pl based on miscellaneous attributes. End result is wikixmlpicks.txt
+
+Next: sort -rn -k 4 wikixmlpicks.txt > wikixmlpicks.sort
+
+GetXmlPages.pl - Brings down wikipedia web pages of interest based on popularity and stores in sets. wikixmlpicks.sort -> xml1/set
+
+TeaseAllFromXml1.pl - Loops over a set of wikipedia XML directories and calls teasefromxml1.pl for each
+
+teasefromxml1.pl - Takes a gzipped xml file from wikipedia/GetXmlPages.pl and extracts phrases of interest using a very simple method, writing separate output files for each popular page.
+
+WriteFinalDataSetJapanese1.pl - Makes final file directory structure. Maybe Paul makes new derived info from here. This also does random sampling to limit the overall output size. This could be undone if needed.
+
+Config files: 
+catmap.txt - semi-auto file with mapping from categories to puzzle categories (or delete)
+linkstops.txt - stop list of common unuseful links, based on frequency review.
+classnames.txt - simple name map from internal to display names
+
+makecategorymap.pl - makes catmap.txt config file. 
+catwords.map - hand-tagged file mapping key words to categories
+stats1.cats - collected-up list of unique categories
+
